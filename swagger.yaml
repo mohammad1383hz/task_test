@@ -1,0 +1,55 @@
+openapi: 3.0.0
+info:
+  title: Task API
+  description: API to manage tasks
+  version: 1.0.0
+servers:
+  - url: http://api.example.com
+paths:
+  /api/tasks:
+    get:
+      summary: Get paginated list of tasks
+      tags:
+        - Tasks
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            default: 10
+          description: Number of tasks per page
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCollection'
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+      required:
+        - id
+        - name
+    TaskCollection:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
